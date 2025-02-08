@@ -1,3 +1,5 @@
+[![lint_check](https://github.com/Bojchenko-Konstantin/cafe_order_system/actions/workflows/lint-check.yml/badge.svg)](https://github.com/Bojchenko-Konstantin/cafe_order_system/actions/workflows/lint-check.yml)
+
 # Система управления заказами в кафе
 
 ## Описание
