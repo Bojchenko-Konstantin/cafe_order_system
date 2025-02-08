@@ -1,7 +1,7 @@
 [![Lint Check](https://github.com/Bojchenko-Konstantin/cafe_order_system/actions/workflows/lint-check.yml/badge.svg)](https://github.com/Bojchenko-Konstantin/cafe_order_system/actions/workflows/lint-check.yml)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Bojchenko-Konstantin_cafe_order_system&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Bojchenko-Konstantin_cafe_order_system)
 [![Django Tests](https://github.com/Bojchenko-Konstantin/cafe_order_system/actions/workflows/django-tests.yml/badge.svg)](https://github.com/Bojchenko-Konstantin/cafe_order_system/actions/workflows/django-tests.yml)
-[![Coverage Status](https://coveralls.io/repos/github/Bojchenko-Konstantin/cafe_order_system/badge.svg)](https://coveralls.io/github/Bojchenko-Konstantin/cafe_order_system)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Bojchenko-Konstantin_cafe_order_system&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Bojchenko-Konstantin_cafe_order_system)
 # Система управления заказами в кафе
 
 ## Описание
