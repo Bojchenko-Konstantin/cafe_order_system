@@ -6,10 +6,10 @@ from ..entities import OrderItem as OrderItemEntity
 from ..models import MenuItem, Order
 from ..repositories import OrderRepository
 from ..use_cases import (
-        CreateOrderUseCase, 
-        DeleteOrderUseCase, 
-        UpdateOrderStatusUseCase,
-    )
+    CreateOrderUseCase,
+    DeleteOrderUseCase,
+    UpdateOrderStatusUseCase,
+)
 
 
 class CreateOrderUseCaseTest(TestCase):
