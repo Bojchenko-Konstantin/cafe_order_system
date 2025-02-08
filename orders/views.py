@@ -1,9 +1,12 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .models import MenuItem, Order
 from .repositories import OrderRepository
+from .serializers import OrderSerializer
 from .services import process_order_creation
 from .use_cases import (
     CalculateRevenueUseCase,
@@ -41,7 +44,7 @@ def order_create(request: HttpRequest) -> HttpResponse:
     """
     Handles the creation of a new order.
 
-    If the request method is POST, a new order is created 
+    If the request method is POST, a new order is created
     and redirects to the list of orders.
     If the method is GET, the form for creating an order is displayed.
 
@@ -62,7 +65,7 @@ def order_update(request: HttpRequest, order_id: int) -> HttpResponse:
     """
     Handles updating the status of an existing order.
 
-    If the request method is POST, the order status is updated 
+    If the request method is POST, the order status is updated
     and redirects to the order list.
     If the method is GET, the form for order editing is displayed.
 
@@ -119,3 +122,34 @@ def revenue(request: HttpRequest) -> HttpResponse:
         'orders/revenue.html',
         {'total_revenue': total_revenue},
     )
+
+
+@api_view(['GET', 'POST'])
+def order_api_list(request):
+    if request.method == 'GET':
+        orders = OrderRepository.get_all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def order_api_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'GET':
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = OrderSerializer(order, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    elif request.method == 'DELETE':
+        order.delete()
+        return Response(status=204)
