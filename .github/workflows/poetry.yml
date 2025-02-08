@@ -1,3 +1,0 @@
-- name: Install Poetry
-  run: |
-    pip install poetry
