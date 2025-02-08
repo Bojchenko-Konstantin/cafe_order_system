@@ -1,0 +1,51 @@
+{% extends 'orders/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">{% if order %}Edit Order{% else %}Create Order{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="table_number" class="form-label">Table Number</label>
+        <input type="number" class="form-control" id="table_number" name="table_number" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Items</label>
+        <div id="items-container">
+            <div class="item-row mb-2">
+                <select class="form-select" name="items[0].menu_item" required>
+                    <option value="" disabled selected>Select a menu item</option>
+                    {% for menu_item in menu_items %}
+                    <option value="{{ menu_item.id }}">
+                        {{ menu_item.name }} - ${{ menu_item.price }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <input type="number" class="form-control mt-2" name="items[0].quantity" value="1" min="1" required>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addItemRow()">Add Item</button>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+{% block scripts %}
+<script>
+function addItemRow() {
+    const container = document.getElementById('items-container');
+    const index = container.children.length;
+    const newRow = document.createElement('div');
+    newRow.className = 'item-row mb-2';
+    newRow.innerHTML = `
+        <select class="form-select" name="items[${index}].menu_item" required>
+            <option value="" disabled selected>Select a menu item</option>
+            {% for menu_item in menu_items %}
+            <option value="{{ menu_item.id }}">{{ menu_item.name }} - ${{ menu_item.price }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" class="form-control mt-2" name="items[${index}].quantity" value="1" min="1" required>
+    `;
+    container.appendChild(newRow);
+}
+</script>
+{% endblock %}
+{% endblock %}
