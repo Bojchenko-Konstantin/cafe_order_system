@@ -1,4 +1,4 @@
-name: lint_check
+name: Lint Check
 
 on:
   push:
@@ -9,21 +9,18 @@ on:
       - main
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.12
-
+          python-version: "3.9"
       - name: Install dependencies
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          poetry install
-
-      - name: Run linter
+          python -m pip install --upgrade pip
+          pip install flake8
+      - name: Run flake8
         run: |
-          make lint
+          flake8 .
