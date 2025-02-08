@@ -29,8 +29,9 @@ jobs:
 
       - name: Run migrations
         run: |
-          poetry run python manage.py migrate
+          poetry run python manage.py migrate-
 
-      - name: Run tests
-        run: |
-          poetry run python manage.py test
+      - name: Run tests with coverage 
+        run: | 
+          poetry run coverage run --source='.' manage.py test 
+          poetry run coverage report -m
