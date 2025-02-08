@@ -20,18 +20,17 @@ jobs:
           python-version: "3.12"  # Укажите нужную версию Python
 
       - name: Install Poetry
-        run: |
-          pip install poetry
+        run: pip install poetry
 
       - name: Set up dependencies with Poetry
-        run: |
-          poetry install --no-root
+        run: poetry install --no-root
+
+      - name: Set up environment variables
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}  # Передача SECRET_KEY из Secrets
 
       - name: Run migrations
-        run: |
-          poetry run python manage.py migrate
+        run: poetry run python manage.py migrate
 
-      - name: Run tests with coverage 
-        run: | 
-          poetry run coverage run --source='.' manage.py test 
-          poetry run coverage report -m
+      - name: Run tests
+        run: poetry run python manage.py test
