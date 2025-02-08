@@ -31,7 +31,19 @@ jobs:
           echo "DATABASE_URL=sqlite:///db.sqlite3" >> .env  # Пример для базы данных
 
       - name: Run migrations
-        run: poetry run python manage.py migrate
+        run: poetry run python manage.py migrate 
 
-      - name: Run tests
-        run: poetry run python manage.py test
+      - name: Install Coveralls 
+        run: poetry run coveralls
+
+      - name: Run tests with coverage
+        run: |
+          poetry run coverage run --source='.' manage.py test
+          poetry run coverage report  # Вывод отчета в консоль
+          poetry run coverage xml
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
