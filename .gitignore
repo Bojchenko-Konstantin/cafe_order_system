@@ -21,7 +21,6 @@ db.sqlite3
 # IDEs и редакторы
 .idea/
 .vscode/
-*.swp
 
 # Системные файлы
 .DS_Store
