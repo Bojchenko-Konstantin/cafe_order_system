@@ -5,6 +5,7 @@ from .models import Order, OrderItem, MenuItem
 
 class OrderItemInline(admin.TabularInline):
     """Inline-class for displaying order items in the admin panel."""
+
     model = OrderItem
     extra = 1
     fields = ['menu_item', 'quantity']
@@ -16,17 +17,21 @@ class OrderItemInline(admin.TabularInline):
 
     subtotal.short_description = 'Subtotal'
 
+
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
     """Admin class for managing menu items."""
+
     list_display = ['name', 'price']
     search_fields = ['name']
     list_filter = ['price']
     ordering = ['name']
 
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     """Admin class for order management."""
+
     list_display = [
         'id',
         'table_number',
@@ -54,6 +59,7 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     """Admin class for managing order points."""
+
     list_display = ['order', 'menu_item', 'quantity', 'subtotal']
     list_filter = ['order__status']
     search_fields = ['order__id', 'menu_item__name']

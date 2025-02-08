@@ -5,6 +5,7 @@ from .models import Order, OrderItem
 
 class OrderItemSerializer(serializers.ModelSerializer):
     """Serializer for OrderItem."""
+
     class Meta:
         model = OrderItem
         fields = ['menu_item', 'quantity']
@@ -12,6 +13,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     """Serializer for Order."""
+
     items = OrderItemSerializer(many=True)
 
     class Meta:

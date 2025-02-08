@@ -4,6 +4,7 @@ from typing import List
 from .entities import Order as OrderEntity
 from .models import MenuItem, Order, OrderItem
 
+
 class OrderRepository:
     @staticmethod
     def get_all() -> List[Order]:
@@ -24,7 +25,7 @@ class OrderRepository:
         order = Order.objects.create(
             table_number=order_entity.table_number,
             status=order_entity.status,
-            total_price=Decimal('0.00'),   
+            total_price=Decimal('0.00'),
         )
 
         total_price = Decimal('0.00')
