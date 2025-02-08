@@ -1,0 +1,7 @@
+{% extends 'orders/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Revenue</h1>
+<p class="lead">Total Revenue: ${{ total_revenue }}</p>
+<a href="{% url 'order_list' %}" class="btn btn-secondary">Back to Orders</a>
+{% endblock %}
