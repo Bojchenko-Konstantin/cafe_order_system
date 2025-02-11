@@ -1,26 +1,24 @@
 from decimal import Decimal
 from typing import List
 
-from .entities import Order as OrderEntity
+from .domain.entities import Order as OrderEntity
 from .models import MenuItem, Order, OrderItem
+from .domain.repositories import BaseOrderRepository
 
 
-class OrderRepository:
-    @staticmethod
-    def get_all() -> List[Order]:
+class OrderRepository(BaseOrderRepository):
+    def get_all(self) -> List[Order]:
         """Get a list of all orders from the database"""
         return Order.objects.prefetch_related('items').all()
 
-    @staticmethod
-    def get_by_id(order_id: int) -> Order | None:
+    def get_by_id(self, order_id: int) -> Order | None:
         """Get order by ID."""
         try:
             return Order.objects.prefetch_related('items').get(id=order_id)
         except Order.DoesNotExist:
             return None
 
-    @staticmethod
-    def create(order_entity: OrderEntity) -> Order:
+    def create(self, order_entity: OrderEntity) -> Order:
         """Creates a new order based on the order entity."""
         order = Order.objects.create(
             table_number=order_entity.table_number,
@@ -44,8 +42,7 @@ class OrderRepository:
 
         return order
 
-    @staticmethod
-    def update(order_id: int, **kwargs) -> Order | None:
+    def update(self, order_id: int, **kwargs) -> Order | None:
         """Updates an existing order by its order ID."""
         order = Order.objects.get(id=order_id)
         for key, value in kwargs.items():
@@ -53,8 +50,7 @@ class OrderRepository:
         order.save()
         return order
 
-    @staticmethod
-    def delete(order_id: int) -> None:
+    def delete(self, order_id: int) -> None:
         """Deletes an order by its order ID."""
         order = Order.objects.get(id=order_id)
         order.delete()
