@@ -1,7 +1,8 @@
 from abc import abstractmethod, ABC
-from typing import List
+
+from django.db.models import QuerySet
 from .entities import Order as OrderEntity
-from ..models import Order
+from ..infrastructure.models import Order
 
 
 class BaseOrderRepository(ABC):
@@ -14,7 +15,7 @@ class BaseOrderRepository(ABC):
 
     """
     @abstractmethod
-    def get_all(self) -> List[Order]:
+    def get_all(self) -> QuerySet[Order]:
         pass
 
     @abstractmethod

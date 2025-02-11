@@ -1,10 +1,10 @@
 from decimal import Decimal
 from typing import List
 
-from .entities import OrderItem as OrderItemEntity
-from .models import Order as OrderModel
-from .models import OrderItem as OrderItemModel
-from .repositories import OrderRepository
+from .domain.entities import OrderItem as OrderItemEntity
+from .infrastructure.models import Order as OrderModel
+from .infrastructure.models import OrderItem as OrderItemModel
+from .infrastructure.repositories import OrderRepository
 
 
 class CreateOrderUseCase:
@@ -74,7 +74,7 @@ class CalculateRevenueUseCase:
     def execute(self) -> Decimal:
         """
         Calculates the total revenue from all paid orders.
-
         """
         orders = self.repository.get_all().filter(status='paid')
-        return sum(order.total_price for order in orders)
+        total_revenue = sum(Decimal(order.total_price) for order in orders) or Decimal('0.00')
+        return total_revenue

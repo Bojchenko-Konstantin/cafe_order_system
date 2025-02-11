@@ -4,10 +4,10 @@ from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import MenuItem, Order
-from .repositories import OrderRepository
+from .infrastructure.models import MenuItem, Order
+from .infrastructure.repositories import OrderRepository
 from .serializers import OrderSerializer
-from .services import process_order_creation
+from .services.order_creation_services import process_order_creation
 from .use_cases import (
     CalculateRevenueUseCase,
     DeleteOrderUseCase,
@@ -23,10 +23,10 @@ def order_list(request: HttpRequest) -> HttpResponse:
 
     """
     status_filter = request.GET.get('status')
-    orders = OrderRepository.get_all()
+    orders = OrderRepository.get_all(order_repository)
 
     if status_filter:
-        orders = orders.filter(status=status_filter)
+        orders = [order for order in orders if order.status == status_filter]
 
     menu_items = MenuItem.objects.all()
     return render(
@@ -68,13 +68,14 @@ def order_update(request: HttpRequest, order_id: int) -> HttpResponse:
     If the request method is POST, the order status is updated
     and redirects to the order list.
     If the method is GET, the form for order editing is displayed.
-
     """
     order = get_object_or_404(Order, id=order_id)
     if request.method == 'POST':
-        status = request.POST.get('status')
+        status = request.POST.get('status', 'default_status')
+
         use_case = UpdateOrderStatusUseCase(order_repository)
         use_case.execute(order_id, status)
+
         return redirect('order_list')
     return render(request, 'orders/order_form.html', {'order': order})
 
@@ -127,7 +128,7 @@ def revenue(request: HttpRequest) -> HttpResponse:
 @api_view(['GET', 'POST'])
 def order_api_list(request):
     if request.method == 'GET':
-        orders = OrderRepository.get_all()
+        orders = OrderRepository.get_all(order_repository)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':

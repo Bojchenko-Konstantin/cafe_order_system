@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Order, OrderItem, MenuItem
+from .infrastructure.models import Order, OrderItem, MenuItem
 
 
 class OrderItemInline(admin.TabularInline):

@@ -54,4 +54,4 @@ class OrderItem(models.Model):
 
     def subtotal(self):
         """Calculates the total cost of this order item."""
-        return Decimal(str(self.menu_item.price)) * Decimal(str(self.quantity))
+        return self.menu_item.price * Decimal(self.quantity)

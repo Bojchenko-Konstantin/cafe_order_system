@@ -1,10 +1,10 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 
-from .entities import OrderItem as OrderItemEntity
-from .models import MenuItem
-from .repositories import OrderRepository
-from .use_cases import CreateOrderUseCase
+from ..domain.entities import OrderItem as OrderItemEntity
+from ..infrastructure.models import MenuItem
+from ..infrastructure.repositories import OrderRepository
+from ..use_cases import CreateOrderUseCase
 
 order_repository = OrderRepository()
 
