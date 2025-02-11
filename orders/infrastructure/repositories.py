@@ -6,10 +6,11 @@ from django.db.models import QuerySet
 from orders.services.exceptions import MenuItemNotFoundError, OrderNotFoundError, OrderServiceError
 
 from ..domain.entities import Order as OrderEntity
-from ..infrastructure.models import MenuItem, Order, OrderItem
+from ..infrastructure.models import Order
 from ..domain.repositories import BaseOrderRepository
 
-from ..services.order_item_service import create_order_item 
+from ..services.order_item_service import create_order_item
+from ..services.order_update_service import update_order_attributes
 
 class OrderRepository(BaseOrderRepository):
     def get_all(self) -> QuerySet[Order]:
@@ -54,17 +55,8 @@ class OrderRepository(BaseOrderRepository):
             raise OrderServiceError(f"Error creating order: {e}")
 
     def update(self, order_id: int, **kwargs) -> Order | None:
-        """Updates an existing order by its order ID."""
-        try:
-            order = Order.objects.get(id=order_id)
-            for key, value in kwargs.items():
-                setattr(order, key, value)
-            order.save()
-            return order
-        except Order.DoesNotExist:
-            raise OrderNotFoundError(f"Order with ID {order_id} does not exist.")
-        except Exception as e:
-            raise OrderServiceError(f"Error updating order {order_id}: {e}")
+        """Update existing order by ID"""
+        return update_order_attributes(order_id, **kwargs)
 
     def delete(self, order_id: int) -> None:
         """Deletes an order by its order ID."""
