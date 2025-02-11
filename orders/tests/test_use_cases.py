@@ -2,9 +2,9 @@ from decimal import Decimal
 
 from django.test import TestCase
 
-from ..entities import OrderItem as OrderItemEntity
-from ..models import MenuItem, Order
-from ..repositories import OrderRepository
+from ..domain.entities import OrderItem as OrderItemEntity
+from ..infrastructure.models import MenuItem, Order
+from ..infrastructure.repositories import OrderRepository
 from ..use_cases import (
     CreateOrderUseCase,
     DeleteOrderUseCase,

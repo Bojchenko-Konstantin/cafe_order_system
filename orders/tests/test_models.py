@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.test import TestCase
 
-from ..models import MenuItem, Order, OrderItem
+from ..infrastructure.models import MenuItem, Order, OrderItem
 
 
 class MenuItemModelTest(TestCase):
