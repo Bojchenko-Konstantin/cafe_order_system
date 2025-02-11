@@ -3,7 +3,11 @@ from decimal import Decimal
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 
-from orders.services.exceptions import MenuItemNotFoundError, OrderNotFoundError, OrderServiceError
+from orders.services.exceptions import (
+    MenuItemNotFoundError,
+    OrderNotFoundError,
+    OrderServiceError,
+)
 
 from ..domain.entities import Order as OrderEntity
 from ..infrastructure.models import Order
@@ -11,6 +15,7 @@ from ..domain.repositories import BaseOrderRepository
 
 from ..services.order_item_service import create_order_item
 from ..services.order_update_service import update_order_attributes
+
 
 class OrderRepository(BaseOrderRepository):
     def get_all(self) -> QuerySet[Order]:

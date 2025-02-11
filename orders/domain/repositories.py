@@ -14,6 +14,7 @@ class BaseOrderRepository(ABC):
     must be implemented in subclasses.
 
     """
+
     @abstractmethod
     def get_all(self) -> QuerySet[Order]:
         pass

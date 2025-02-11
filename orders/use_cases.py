@@ -76,5 +76,7 @@ class CalculateRevenueUseCase:
         Calculates the total revenue from all paid orders.
         """
         orders = self.repository.get_all().filter(status='paid')
-        total_revenue = sum(Decimal(order.total_price) for order in orders) or Decimal('0.00')
+        total_revenue = sum(Decimal(order.total_price) for order in orders) or Decimal(
+            '0.00'
+        )
         return total_revenue
